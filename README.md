@@ -66,11 +66,11 @@ For every non-protected PCIe device that supports ASPM, the script tries to enab
 - if the device supports `L0s+L1`, it enables `L0s+L1`
 - if the best supported mode is already active, it leaves the device unchanged
 
-Every `setpci` write is verified by reading the register back again. If a device reports ASPM support but does not actually accept the new setting, that device is reported as a failure instead of being silently treated as successful.
+Every `setpci` write is verified by reading the register back again. If a device reports ASPM support but does not actually accept the new setting, that device is reported as a failure.
 
 The script also generates `powertop` reports before and after the PCIe tuning pass and extracts a short summary of the deepest observed core and package C-states. This is meant to show whether the machine moved from shallow package idle states such as package `C3` toward deeper states such as package `C8`.
 
-In addition to the PCIe ASPM changes, the script runs `powertop --auto-tune`. So in practice it does three things:
+In addition to the PCIe ASPM changes, the script runs `powertop --auto-tune`, which will enable deeper C-states. Just enabling ASPM isn't enough. So in practice it does three things:
 
 - enables supported PCIe ASPM states with `setpci`
 - applies `powertop` runtime tunings
